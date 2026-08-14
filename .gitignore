@@ -20,3 +20,8 @@ phases/private/
 
 # macOS
 .DS_Store
+
+# Environment & local secrets
+.env
+.env.*
+collect.txt

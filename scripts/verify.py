@@ -25,6 +25,12 @@ LAB_ROOT = Path(__file__).resolve().parent.parent
 if str(LAB_ROOT) not in sys.path:
     sys.path.insert(0, str(LAB_ROOT))
 
+if sys.platform == "win32":
+    if sys.stdout and hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    if sys.stderr and hasattr(sys.stderr, "reconfigure"):
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 #: Băm MD5 của năm file ĐÓNG BĂNG. Sinh viên không được sửa chúng; nếu
 #: một dòng nào đó thay đổi thì mọi con số đã đo trong lab này hết hiệu
 #: lực. Đây cũng là mẻ kiểm tra chống gian lận rẻ nhất có thể có.
@@ -555,7 +561,10 @@ def check_determinism():
 def _clean_env():
     import os
 
-    return {k: v for k, v in os.environ.items() if not k.startswith("ARENA_")}
+    env = {k: v for k, v in os.environ.items() if not k.startswith("ARENA_")}
+    env["PYTHONIOENCODING"] = "utf-8"
+    env["PYTHONUTF8"] = "1"
+    return env
 
 
 def check_no_network():

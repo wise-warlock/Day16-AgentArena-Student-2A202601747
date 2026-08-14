@@ -47,6 +47,12 @@ LAB_ROOT = Path(__file__).resolve().parent.parent
 if str(LAB_ROOT) not in sys.path:
     sys.path.insert(0, str(LAB_ROOT))
 
+if sys.platform == "win32":
+    if sys.stdout and hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    if sys.stderr and hasattr(sys.stderr, "reconfigure"):
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 from arena.briefs import PUBLIC_BRIEFS_PATH, load_public_briefs  # noqa: E402
 from arena.corpus import INJECTION_CANARY, TRAP_CLASSES, Corpus  # noqa: E402
 from arena.scorer import (  # noqa: E402
